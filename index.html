@@ -54,7 +54,19 @@ section{position:relative}
 .btn:hover{transform:translateY(-2px) scale(1.02)}
 .btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
 .btn.small{padding:10px 20px;font-size:.92rem}
-@media (max-width:760px){.nav ul{display:none}}
+.nav-act{display:flex;gap:10px;align-items:center}
+.icon-btn{all:unset;box-sizing:border-box;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line);transition:background .2s,transform .2s}
+.icon-btn:hover{background:var(--surface)}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.icon-btn svg{width:20px;height:20px}
+.burger{display:none;position:relative}
+.burger span{position:absolute;left:13px;right:13px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:25px}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(4px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+@media (max-width:980px){.nav ul{display:none}.burger{display:grid}}
+@media (max-width:560px){.nav-order{display:none}}
 
 /* ---------- hero ---------- */
 .hero{min-height:calc(100svh - 64px);display:grid;align-items:center;overflow:hidden;padding:48px 0 72px}
@@ -80,7 +92,7 @@ section{position:relative}
 .front .bottom{position:relative}
 .front .bottom b{display:block;font-family:var(--font-d);font-weight:500;font-size:1.05rem}
 .front .bottom span{font-size:.82rem;opacity:.7}
-.rings{position:absolute;right:14px;top:14px;width:44px;height:44px;pointer-events:none}
+.rings{position:absolute;right:28px;top:26px;width:44px;height:44px;pointer-events:none}
 .rings i{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(255,255,255,.55);animation:ring 3.2s ease-out infinite;opacity:0}
 .rings i:nth-child(2){animation-delay:1.05s}.rings i:nth-child(3){animation-delay:2.1s}
 @keyframes ring{0%{transform:scale(.6);opacity:.8}100%{transform:scale(3.6);opacity:0}}
@@ -94,7 +106,17 @@ section{position:relative}
 .tag3d::before{content:"";position:absolute;inset:16%;border-radius:50%;border:2px dashed rgba(255,255,255,.55)}
 .tag3d svg{width:38%;color:#fff;position:relative}
 .flip-note{position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);font-size:.82rem;color:var(--muted);white-space:nowrap}
-@media (max-width:860px){.hero-in{grid-template-columns:1fr}.stage{order:-1;height:300px}.hero{padding-top:20px}.flip-note{display:none}}
+@media (max-width:860px){
+  .hero-in{grid-template-columns:1fr;gap:20px}
+  .stage{order:-1;height:280px}
+  .hero{min-height:auto;padding:12px 0 56px}
+  .hero h1{font-size:1.8rem}
+  .hero .lead{font-size:1.02rem;margin-top:16px}
+  .hero .cta{margin-top:24px}
+  .hero .cta .btn{flex:1 1 100%;padding:16px 24px}
+  .price-hint{flex-direction:column;gap:6px;margin-top:20px}
+  .flip-note{bottom:-8px}
+}
 
 /* ---------- section scaffolding ---------- */
 .block{padding:clamp(72px,10vw,130px) 0}
@@ -110,6 +132,7 @@ section{position:relative}
 /* ---------- demo ---------- */
 .demo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,90px);align-items:center;margin-top:56px}
 .tabs{display:flex;flex-direction:column;gap:6px}
+.tab-desc{display:none;color:var(--muted);font-size:.98rem;margin:2px 0 0;min-height:4.4em}
 .tab{all:unset;box-sizing:border-box;cursor:pointer;padding:16px 20px;border-radius:16px;border:1.5px solid transparent;transition:background .25s,border-color .25s,transform .25s}
 .tab:hover{background:color-mix(in srgb,var(--surface) 60%,transparent)}
 .tab[aria-selected="true"]{background:var(--surface);border-color:var(--line);box-shadow:var(--shadow);transform:translateX(8px)}
@@ -145,11 +168,15 @@ section{position:relative}
 .tap-demo svg{width:30px;height:30px}
 @media (max-width:860px){
   .demo{grid-template-columns:1fr}
-  .tab[aria-selected="true"]{transform:none}
-  .tabs{flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:6px;scroll-snap-type:x mandatory}
-  .tab{flex:0 0 78%;scroll-snap-align:start;border-color:var(--line)}
+  .tabs{flex-direction:row;overflow-x:auto;gap:8px;padding:4px clamp(20px,5vw,72px) 8px;margin:0 calc(-1 * clamp(20px,5vw,72px));scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;padding:12px 18px;border-radius:999px;border-color:var(--line);background:var(--surface)}
+  .tab b{font-size:.92rem;white-space:nowrap}
+  .tab span{display:none}
+  .tab[aria-selected="true"]{transform:none;background:var(--accent);color:var(--accent-ink);border-color:transparent;box-shadow:0 10px 22px -10px var(--accent)}
+  .tab-desc{display:block}
   .tap-demo{display:none}
-  .phone-stage{min-height:600px}
+  .phone-stage{min-height:580px}
 }
 
 /* ---------- benefits ---------- */
@@ -220,6 +247,56 @@ details[open] summary::after{transform:rotate(-135deg) translate(-3px,-3px)}
 details p{margin-top:14px;color:var(--muted);max-width:40em}
 
 footer{padding:40px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.92rem}
+
+/* ---------- progress / sheet / dock ---------- */
+.progress{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;height:3px;z-index:70;background:linear-gradient(90deg,var(--accent),var(--teal));transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+.sheet{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;justify-content:center;padding:calc(88px + env(safe-area-inset-top,0px)) 28px calc(32px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);visibility:hidden;opacity:0;transform:perspective(900px) rotateX(-12deg) translateY(-30px);transform-origin:50% 0;transition:opacity .35s,transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s}
+.sheet.open{visibility:visible;opacity:1;transform:none;transition-delay:0s}
+.sheet nav{display:flex;flex-direction:column;max-width:520px;width:100%;margin:0 auto}
+.sheet nav a{font-family:var(--font-d);font-weight:500;font-size:1.3rem;text-decoration:none;padding:18px 0;border-bottom:1px solid var(--line)}
+.sheet nav .btn{margin-top:28px;font-family:var(--font-b);font-size:1.05rem;padding:18px;border-bottom:0}
+.dock{display:none}
+@media (max-width:860px){
+  .dock{display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:40;padding:10px 10px 10px 22px;border-radius:999px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:var(--shadow),inset 0 0 0 1px var(--line);opacity:0;visibility:hidden;transform:translateY(24px) scale(.96);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s .45s}
+  .dock.show{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+  .dock b{display:block;font-family:var(--font-d);font-size:.92rem;font-weight:500;line-height:1.2}
+  .dock span{font-size:.8rem;color:var(--muted)}
+  .dock .btn{padding:13px 22px}
+  footer{padding-bottom:120px}
+}
+
+/* ---------- design studio ---------- */
+.design{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,6vw,90px);align-items:center}
+.ctrl{margin-top:30px}
+.ctrl .btn{width:100%;margin-top:4px}
+.swatches{display:flex;gap:12px;flex-wrap:wrap}
+.sw{all:unset;box-sizing:border-box;cursor:pointer;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:inset 0 0 0 2px rgba(255,255,255,.4),0 0 0 1.5px var(--line);transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.sw:hover{transform:scale(1.08)}
+.sw[aria-checked="true"]{transform:scale(1.14);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55),0 0 0 3px var(--accent)}
+.sw:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.dstage{perspective:1200px;display:grid;place-items:center;min-height:340px;touch-action:pan-y}
+.dcard{position:relative;width:min(430px,86vw);aspect-ratio:1.586;transform-style:preserve-3d;transition:transform .2s ease-out}
+.dface{--c1:#1C2468;--c2:#0E1236;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;padding:24px 26px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s,color .3s}
+.dface.light{color:#14183C}
+.dface::before{content:"";position:absolute;inset:-40% -10%;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.22) 50%,transparent 58%);pointer-events:none}
+.dface .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;position:relative}
+.dname{font-family:var(--font-d);font-weight:700;line-height:1.12;max-width:76%;overflow-wrap:anywhere;font-size:1.5rem}
+.dface .nfc{width:40px;height:40px;flex:0 0 40px}
+.dface .rings{right:26px;top:24px;width:40px;height:40px}
+.dface.light .rings i{border-color:rgba(20,24,60,.5)}
+.dtag{position:relative;font-size:.95rem;opacity:.85;max-width:80%}
+.dface .bottom{position:relative}
+.dface .bottom b{display:block;font-family:var(--font-d);font-weight:500;font-size:.95rem}
+.dface .bottom span{font-size:.8rem;opacity:.75}
+@media (max-width:860px){
+  .design{display:flex;flex-direction:column;gap:12px}
+  .dstage{order:-1;position:sticky;top:calc(env(safe-area-inset-top,0px) + 68px);z-index:6;min-height:0;padding:14px 0 18px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .dcard{width:min(300px,74vw)}
+  .dname{font-size:1.2rem}
+}
+@media (max-width:400px){.phone{transform:scale(.93)}}
+@media (max-width:560px){.block{padding:64px 0}.plan,.box{border-radius:24px}.amount{margin-top:22px}}
+
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 @media (prefers-reduced-motion: reduce){
@@ -239,13 +316,29 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     </a>
     <ul>
       <li><a href="#demo">Как это выглядит</a></li>
+      <li><a href="#design">Своя визитка</a></li>
       <li><a href="#benefits">Что даёт бизнесу</a></li>
       <li><a href="#price">Цены</a></li>
       <li><a href="#faq">Вопросы</a></li>
     </ul>
-    <a class="btn small" href="#order">Заказать</a>
+    <div class="nav-act">
+      <button class="icon-btn" id="theme" type="button" aria-label="Переключить тему"></button>
+      <a class="btn small nav-order" href="#order">Заказать</a>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="sheet"><span></span><span></span></button>
+    </div>
   </div>
 </header>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="sheet" id="sheet" aria-hidden="true">
+  <nav aria-label="Меню">
+    <a href="#demo">Как это выглядит</a>
+    <a href="#design">Соберите свою визитку</a>
+    <a href="#benefits">Что даёт бизнесу</a>
+    <a href="#price">Цены</a>
+    <a href="#faq">Вопросы</a>
+    <a class="btn" href="#order">Заказать визитки</a>
+  </nav>
+</div>
 
 <main id="top">
 <!-- ================= HERO ================= -->
@@ -285,7 +378,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="tag3d" id="tag" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8.5c1.6 2 1.6 5 0 7"/><path d="M10 6c2.8 3.4 2.8 8.6 0 12"/><path d="M14 3.5c4 4.8 4 12.2 0 17"/></svg>
       </div>
-      <div class="flip-note">Двигайте мышью или нажмите на карту, чтобы перевернуть</div>
+      <div class="flip-note">Потяните карту или нажмите на неё — она перевернётся</div>
     </div>
   </div>
 </section>
@@ -300,6 +393,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     </div>
     <div class="demo">
       <div class="tabs rv" role="tablist" aria-label="Примеры использования" id="tabs"></div>
+      <p class="tab-desc" id="tabDesc" aria-live="polite"></p>
       <div class="phone-stage rv" id="phoneStage">
         <div class="tap-demo" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8.5c1.6 2 1.6 5 0 7"/><path d="M10 6c2.8 3.4 2.8 8.6 0 12"/><path d="M14 3.5c4 4.8 4 12.2 0 17"/></svg>
@@ -314,8 +408,39 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
+<!-- ================= DESIGN ================= -->
+<section class="block" id="design">
+  <div class="wrap design">
+    <div class="rv">
+      <div class="kicker">Соберите свою визитку</div>
+      <h2>Посмотрите, как будет выглядеть ваша карта</h2>
+      <p class="sub">Впишите название, выберите цвет и то, что откроется по касанию. Макет обновляется сразу.</p>
+      <div class="ctrl">
+        <label class="field"><span>Название заведения или ваше имя</span><input id="dN" type="text" maxlength="28" autocomplete="off" placeholder="Например, Кофейня «Зерно»"></label>
+        <label class="field"><span>Короткая подпись</span><input id="dT" type="text" maxlength="40" autocomplete="off" placeholder="Например, Кофе и выпечка с 8:00"></label>
+        <div class="field"><span id="swLabel">Цвет карты</span><div class="swatches" id="swatches" role="radiogroup" aria-labelledby="swLabel"></div></div>
+        <label class="field"><span>Что откроется по касанию</span><select id="dO"><option>меню</option><option>страница отзывов</option><option>соцсети</option><option>ваши контакты</option></select></label>
+        <a class="btn" href="#order" id="dOrder">Заказать такую визитку</a>
+      </div>
+    </div>
+    <div class="dstage" id="dstage">
+      <div class="dcard" id="dcard">
+        <div class="face dface" id="dface">
+          <div class="rings" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="top">
+            <div class="dname" id="dName">Ваше название</div>
+            <svg class="nfc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 8.5c1.6 2 1.6 5 0 7"/><path d="M10 6c2.8 3.4 2.8 8.6 0 12"/><path d="M14 3.5c4 4.8 4 12.2 0 17"/></svg>
+          </div>
+          <div class="dtag" id="dTag">Ваша подпись</div>
+          <div class="bottom"><b>Приложите телефон</b><span id="dOpen">Откроется: меню</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= BENEFITS ================= -->
-<section class="block" id="benefits">
+<section class="block alt" id="benefits">
   <div class="wrap ben">
     <div class="left rv">
       <div class="kicker">Что даёт бизнесу</div>
@@ -336,7 +461,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </section>
 
 <!-- ================= PRICE ================= -->
-<section class="block alt" id="price">
+<section class="block" id="price">
   <div class="wrap">
     <div class="rv">
       <div class="kicker">Цены</div>
@@ -380,7 +505,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </section>
 
 <!-- ================= ORDER ================= -->
-<section class="block" id="order">
+<section class="block alt" id="order">
   <div class="wrap order">
     <div class="rv">
       <div class="kicker">Как заказать</div>
@@ -410,7 +535,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </section>
 
 <!-- ================= FAQ ================= -->
-<section class="block alt" id="faq">
+<section class="block" id="faq">
   <div class="wrap">
     <div class="rv"><div class="kicker">Вопросы</div><h2>Коротко о том, что спрашивают чаще всего</h2></div>
     <div class="faq rv">
@@ -427,6 +552,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <footer>
   <div class="wrap"><span>Тапни — NFC-визитки и метки для бизнеса</span><a href="#order">Заказать визитки</a></div>
 </footer>
+
+<div class="dock" id="dock">
+  <div><b>20 визиток</b><span>от 600 ₽, с сайтом — 3 000 ₽</span></div>
+  <a class="btn small" href="#order">Заказать</a>
+</div>
 
 <script>
 (function(){
@@ -468,13 +598,28 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     card.style.setProperty('--gy',((ny+.5)*100)+'%');
     card.style.setProperty('--sheen',(nx*60)+'%');
   }
+  var dragging=false, moved=false, sx=0, startFlip=0;
   function doFlip(){flip+=180; if(reduce) paint()}
-  card.addEventListener('click',doFlip);
+  card.addEventListener('click',function(){ if(moved){moved=false;return} doFlip() });
+  if(!reduce){
+    var endDrag=function(){if(!dragging)return;dragging=false;if(moved)flip=Math.round(flip/180)*180};
+    card.addEventListener('pointerdown',function(e){dragging=true;moved=false;sx=e.clientX;startFlip=flip;try{card.setPointerCapture(e.pointerId)}catch(_){}});
+    card.addEventListener('pointermove',function(e){if(!dragging)return;var dx=e.clientX-sx;if(Math.abs(dx)>6)moved=true;if(moved)flip=startFlip+dx*.7});
+    card.addEventListener('pointerup',endDrag);
+    card.addEventListener('pointercancel',endDrag);
+  }
   card.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();doFlip()}});
   function paint(){card.style.transform='rotateX('+cx+'deg) rotateY('+cy+'deg)'}
   if(!reduce){
     hero.addEventListener('pointermove',onMove);
     hero.addEventListener('pointerleave',function(){tx=0;ty=0});
+    if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission!=='function' && window.matchMedia('(pointer:coarse)').matches){
+      window.addEventListener('deviceorientation',function(e){
+        if(e.gamma==null) return;
+        ty=Math.max(-24,Math.min(24,e.gamma*.6));
+        tx=Math.max(-16,Math.min(16,((e.beta||50)-50)*-.4));
+      });
+    }
     (function frame(){
       var sy=window.scrollY, vh=window.innerHeight;
       if(sy<vh*1.3){
@@ -517,6 +662,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     if(i===cur) return;
     var first=cur===-1; cur=i;
     $$('.tab',tabs).forEach(function(b,j){b.setAttribute('aria-selected',j===i?'true':'false');b.tabIndex=j===i?0:-1});
+    $('#tabDesc').textContent=tabsData[i].d;
+    if(!first&&navigator.vibrate){try{navigator.vibrate(8)}catch(_){}}
+    if(!first&&window.matchMedia('(max-width:860px)').matches){var sel=$('#tab'+i);if(sel&&sel.scrollIntoView){try{sel.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})}catch(_){}}}
     function swap(){screen.innerHTML=tabsData[i].s; flipEl.classList.remove('turn')}
     if(first||reduce){swap();return}
     flipEl.classList.add('turn');
@@ -575,7 +723,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   function build(){
     var name=fName.value.trim();
     var siteText=fSite.value==='1'?'сайт уже есть (600 ₽)':'сайта нет, нужна разработка (3 000 ₽)';
-    var text='Здравствуйте! Хочу заказать 20 NFC-визиток.'+(name?' Меня зовут '+name+'.':'')+' Сфера: '+fType.value+'. '+siteText+'.';
+    var text='Здравствуйте! Хочу заказать 20 NFC-визиток.'+(name?' Меня зовут '+name+'.':'')+' Сфера: '+fType.value+'. '+siteText+'.'+designText();
     send.href='https://t.me/'+TG_USERNAME+'?text='+encodeURIComponent(text);
   }
   [fName,fType,fSite].forEach(function(el){el.addEventListener('input',build);el.addEventListener('change',build)});
@@ -583,6 +731,98 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   $$('[data-plan]').forEach(function(a){
     a.addEventListener('click',function(){fSite.value=a.dataset.plan;build()});
   });
+
+  /* ====== конструктор визитки ====== */
+  var swData=[
+    {n:'Индиго',a:'#1C2468',b:'#0E1236'},
+    {n:'Изумруд',a:'#0E6B55',b:'#06302A'},
+    {n:'Графит',a:'#2E3140',b:'#101117'},
+    {n:'Бордо',a:'#8A2347',b:'#3A0F1E'},
+    {n:'Океан',a:'#1275BD',b:'#082F52'},
+    {n:'Перламутр',a:'#F4F5FB',b:'#C7CEEA',light:true}
+  ];
+  var dface=$('#dface'), dcard=$('#dcard'), dstage=$('#dstage'), swBox=$('#swatches');
+  var dN=$('#dN'), dT=$('#dT'), dO=$('#dO');
+  var swIdx=0, designTouched=false;
+  swData.forEach(function(s,i){
+    var b=document.createElement('button');
+    b.type='button'; b.className='sw'; b.setAttribute('role','radio'); b.setAttribute('aria-label',s.n); b.title=s.n;
+    b.style.setProperty('--c1',s.a); b.style.setProperty('--c2',s.b);
+    b.addEventListener('click',function(){
+      swIdx=i; designTouched=true; renderDesign(); build();
+      if(!reduce&&dcard.animate){dcard.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(360deg)'}],{duration:750,easing:'cubic-bezier(.2,.7,.2,1)'})}
+    });
+    swBox.appendChild(b);
+  });
+  function renderDesign(){
+    var s=swData[swIdx], nm=dN.value.trim();
+    dface.style.setProperty('--c1',s.a); dface.style.setProperty('--c2',s.b);
+    dface.classList.toggle('light',!!s.light);
+    $('#dName').textContent=nm||'Ваше название';
+    $('#dName').style.fontSize=Math.max(.95,(window.innerWidth<=860?1.25:1.55)-(nm.length*.03))+'rem';
+    $('#dTag').textContent=dT.value.trim()||'Ваша подпись';
+    $('#dOpen').textContent='Откроется: '+dO.value;
+    $$('.sw',swBox).forEach(function(b,i){b.setAttribute('aria-checked',i===swIdx?'true':'false')});
+  }
+  function designText(){
+    if(!designTouched) return '';
+    var nm=dN.value.trim(), tg=dT.value.trim();
+    return ' Макет визитки: '+(nm?'название «'+nm+'», ':'')+(tg?'подпись «'+tg+'», ':'')+'цвет — '+swData[swIdx].n.toLowerCase()+', по касанию откроется: '+dO.value+'.';
+  }
+  [dN,dT,dO].forEach(function(el){
+    el.addEventListener('input',function(){designTouched=true;renderDesign();build()});
+    el.addEventListener('change',function(){designTouched=true;renderDesign();build()});
+  });
+  renderDesign();
+  if(!reduce){
+    dstage.addEventListener('pointermove',function(e){
+      var r=dstage.getBoundingClientRect();
+      var nx=(e.clientX-r.left)/r.width-.5, ny=(e.clientY-r.top)/r.height-.5;
+      dcard.style.transform='rotateY('+(nx*34)+'deg) rotateX('+(-ny*24)+'deg)';
+      dface.style.setProperty('--gx',((nx+.5)*100)+'%'); dface.style.setProperty('--gy',((ny+.5)*100)+'%');
+    });
+    dstage.addEventListener('pointerleave',function(){dcard.style.transform=''});
+  }
+
+  /* ====== тема ====== */
+  var root=document.documentElement, themeBtn=$('#theme');
+  var SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
+  try{var saved=localStorage.getItem('tapni-theme'); if(saved==='dark'||saved==='light') root.setAttribute('data-theme',saved)}catch(_){}
+  function isDark(){var t=root.getAttribute('data-theme'); return t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches}
+  function themeIcon(){themeBtn.innerHTML=isDark()?SUN:MOON; themeBtn.setAttribute('aria-label',isDark()?'Включить светлую тему':'Включить тёмную тему')}
+  themeBtn.addEventListener('click',function(){
+    var next=isDark()?'light':'dark';
+    root.setAttribute('data-theme',next);
+    try{localStorage.setItem('tapni-theme',next)}catch(_){}
+    themeIcon();
+  });
+  themeIcon();
+
+  /* ====== мобильное меню ====== */
+  var burger=$('#burger'), sheet=$('#sheet');
+  function setMenu(open){
+    sheet.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',open?'true':'false');
+    sheet.setAttribute('aria-hidden',open?'false':'true');
+    document.body.style.overflow=open?'hidden':'';
+  }
+  burger.addEventListener('click',function(){setMenu(!sheet.classList.contains('open'))});
+  $$('a',sheet).forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
+  window.addEventListener('resize',function(){if(window.innerWidth>980)setMenu(false); renderDesign()});
+
+  /* ====== прогресс прокрутки и плавающая кнопка ====== */
+  var progress=$('#progress'), dock=$('#dock'), orderSec=$('#order');
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    progress.style.transform='scaleX('+(h>0?Math.min(window.scrollY/h,1):0)+')';
+    var r=orderSec.getBoundingClientRect();
+    var inOrder=r.top<window.innerHeight*.75&&r.bottom>0;
+    dock.classList.toggle('show',window.scrollY>window.innerHeight*.5&&!inOrder&&!sheet.classList.contains('open'));
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
 })();
 </script>
 </body>
